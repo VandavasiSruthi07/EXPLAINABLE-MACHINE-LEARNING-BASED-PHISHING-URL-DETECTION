@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhishGuard | URL Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="brand">🛡️ PhishGuard</div>
+      <p class="eyebrow">EXPLAINABLE MACHINE LEARNING</p>
+      <h1>Phishing URL Detection</h1>
+      <p class="subtitle">Analyze URL patterns and understand what influenced the model's prediction.</p>
+    </header>
+
+    {% if not ready %}
+    <section class="notice">Model not trained yet. In the VS Code terminal, run <code>python train_model.py</code>, then refresh this page.</section>
+    {% endif %}
+
+    <section class="panel">
+      <label for="urlInput">Website URL</label>
+      <div class="input-row">
+        <input id="urlInput" type="text" placeholder="https://example.com" autocomplete="off">
+        <button id="checkBtn">Check URL</button>
+      </div>
+      <p class="hint">The application analyzes the URL text only; it does not open or visit the website.</p>
+      <div id="error" class="error" role="alert"></div>
+    </section>
+
+    <section id="result" class="panel hidden">
+      <div class="result-top">
+        <div><p class="eyebrow">MODEL PREDICTION</p><h2 id="prediction">—</h2></div>
+        <div class="score"><strong id="score">—</strong><span>phishing probability</span></div>
+      </div>
+      <p id="modelName" class="hint"></p>
+      <h3>What influenced this result?</h3>
+      <p id="explanationType" class="hint"></p>
+      <ul id="reasons" class="reasons"></ul>
+      <h3>Extracted URL features</h3>
+      <div id="features" class="feature-grid"></div>
+      <p id="disclaimer" class="disclaimer"></p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><p class="eyebrow">EVALUATION</p><h2>Model comparison</h2></div><button id="refreshMetrics" class="secondary">Refresh</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr></thead><tbody id="metricsBody"><tr><td colspan="5">Train models to view results.</td></tr></tbody></table></div>
+    </section>
+    <footer>Educational prototype · Do not rely on this tool for security decisions.</footer>
+  </main>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
